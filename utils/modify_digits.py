@@ -49,3 +49,5 @@ def run_corrections(predictions):
         grid = display(predictions)
         plt.imshow(grid, cmap='Greys')
         plt.show()
+
+    return predictions

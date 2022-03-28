@@ -2,10 +2,14 @@ from utils.extract_cells import preprocess, get_outline_puzzle, splitcells, crop
 from utils.post_process import threshold_digit, detect_empty, center_digit
 from utils.predict import predict
 from utils.modify_digits import run_corrections
+from utils.display_sudoku import display
+from utils.utils_solver.sudoku import Sudoku
+import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import argparse
 import os
+import time
 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -68,7 +72,29 @@ def main(file, dataset, model_folder="data/models/"):
     # print(f"Nb of 8 : {sum(np.array(predicted) == 8)} / {len(predicted)}")
     # print(np.reshape(predicted, (9, 9)))
 
-    run_corrections(predicted)
+    predicted = run_corrections(predicted)
+    predicted = np.reshape(predicted, (9, 9))
+
+    # Solve Sudoku grid
+    sudoku = Sudoku(predicted)
+
+    print(f"\nSolving Sudoku...")
+    solution, termination_status, execution_time, n_branching = sudoku.main(instantiation=dict(),
+                                                                            start=time.time(),
+                                                                            mode_var_heuristic=1,
+                                                                            mode_val_heuristic=1,
+                                                                            arc_consistence=True,
+                                                                            forward_check=True,
+                                                                            time_limit=180)
+    final_grid = sudoku.build_solution()
+    final_values = np.reshape(final_grid, (1, 81))[0]
+    to_display = display(final_values)
+
+    # Show solved Sudoku
+    plt.figure("Sudoku")
+    plt.axis('off')
+    plt.imshow(to_display, cmap='Greys')
+    plt.show()
 
 
 if __name__ == '__main__':
