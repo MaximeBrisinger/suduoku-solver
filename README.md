@@ -1,7 +1,7 @@
 # Sudoku solver
 This project aims at solving a Sudoku from a picture, which might have a poor quality (blurred, not upright, small...).
 
-Here is an example of a Sudoku solved with our algorithm.
+**Here is an example of a Sudoku solved with our algorithm.**
 
 <div align="center"> Input Sudoku picture.
 </div>
@@ -45,7 +45,7 @@ python main.py --input_file test2.jpg
 ```
 
 * A first window will open, which shows you the cropped image, with only the sudoku grid left. You need to close it for the run to continue.
-* Then, a new window with the predicted grid open. If some digits are wrong, click on the corresponding cell(s) and then enter the true value (instructions are printed on the terminal). Once your modifications are done, you can close the window.
+* Then, a new window with the predicted grid opens. If some digits are wrong, click on the corresponding cell(s) and then enter the true value (instructions are printed in the terminal). Once your modifications are done, you can close the window.
 * If you edited at least one cell, the corrected grid will appear. You need to close it for the run to continue.
 * Finally, the solved grid will appear.
 
