@@ -27,8 +27,8 @@ def main(file, dataset, model_folder="data/models/"):
 
     puzzle = cv2.imread(file)
     su_puzzle = preprocess(puzzle)
-    cv2.imshow('image', su_puzzle)
-    cv2.waitKey(0)
+    # cv2.imshow('image', su_puzzle)
+    # cv2.waitKey(0)
 
     su_imagewrap = get_outline_puzzle(puzzle, su_puzzle)
     cv2.imshow('image', su_imagewrap)
