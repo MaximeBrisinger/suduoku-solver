@@ -1,12 +1,15 @@
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Flatten
-from keras.layers import Conv2D, MaxPooling2D, Dropout
+from keras.layers import Conv2D, MaxPooling2D
 from keras.utils import np_utils
 from utils.generate_dataset import load_dataset, load_kaggle_dataset
 
 
 def train(X_train, y_train, X_test, y_test, nb_labels=10, output="model3.pth"):
+    """
+        Defines the model and train it, then stores it as a .pth file.
+    """
     # Reshape to be samples*pixels*width*height
     size = X_train.shape[1]
     X_train = X_train.reshape(X_train.shape[0], size, size, 1).astype('float32')
@@ -34,17 +37,6 @@ def train(X_train, y_train, X_test, y_test, nb_labels=10, output="model3.pth"):
     model.add(Flatten())
     model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
     model.add(Dense(nb_labels, activation='softmax'))
-
-    # Other model (bad results on MNIST)
-    # model.add(Conv2D(32, (3, 3), activation='tanh', kernel_initializer='he_uniform', input_shape=(28, 28, 1)))
-    # model.add(Conv2D(64, (3, 3), activation='tanh', kernel_initializer='he_uniform'))
-    # model.add(MaxPooling2D((2, 2)))
-    # model.add(Dropout(0.25))
-    # model.add(Flatten())
-    # model.add(Dense(128, activation='tanh', kernel_initializer='he_uniform'))
-    # model.add(Dropout(0.5))
-    # model.add(Dense(10, activation='softmax'))
-    # model.summary()
 
     # Compile model
     # opt = Adam(learning_rate=0.0001)

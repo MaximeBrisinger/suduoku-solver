@@ -1,4 +1,5 @@
 import os
+# To hide tensorflow warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from utils.extract_cells import preprocess, get_outline_puzzle, splitcells, cropcell
 from utils.post_process import threshold_digit, detect_empty, center_digit
@@ -15,6 +16,14 @@ import time
 
 
 def main(file, dataset, model_folder="data/models/"):
+    """
+    Main function. Pre-processes the image, then extracts the digits, recognizes them, and finally solve the sudoku.
+    Args:
+        file: Name of the .jpg input file of the sudoku.
+        dataset: Name of the dataset used for training. Can be "MNIST", "KAGGLE", or "OWN". Best results are obtained
+            with KAGGLE dataset.
+        model_folder: Path to the folder where model files are stored.
+    """
 
     puzzle = cv2.imread(file)
     su_puzzle = preprocess(puzzle)
