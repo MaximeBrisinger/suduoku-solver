@@ -41,8 +41,13 @@ Here is an example of a Sudoku solved with our algorithm.
 ## How to run the project
 Run the main file. The input `.jpg` file has to be in `data/` folder.
 ```bash
-python main.py --input_file test4.jpg
+python main.py --input_file test2.jpg
 ```
+
+* A first window will open, which shows you the cropped image, with only the sudoku grid left. You need to close it for the run to continue.
+* Then, a new window with the predicted grid open. If some digits are wrong, click on the corresponding cell(s) and then enter the true value (instructions are printed on the terminal). Once your modifications are done, you can close the window.
+* If you edited at least one cell, the corrected grid will appear. You need to close it for the run to continue.
+* Finally, the solved grid will appear.
 
 ## Prerequisites and Installation
 Run the following command
