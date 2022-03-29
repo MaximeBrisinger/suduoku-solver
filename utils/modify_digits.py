@@ -47,6 +47,8 @@ def run_corrections(predictions):
 
     if len(list(events.keys())) > 0:
         grid = display(predictions)
+        plt.figure("Sudoku")
+        plt.axis('off')
         plt.imshow(grid, cmap='Greys')
         plt.show()
 

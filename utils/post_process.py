@@ -7,15 +7,15 @@ def threshold_digit(image, display=False):
     # Input image
     image = cv2.bitwise_not(image, image)
 
-    thresh = 105  # define a threshold, 128 is the middle of black and white in grey scale
-    # threshold the image
+    thresh = 107  # define a threshold, 128 is the middle of black and white in grey scale
 
+    # threshold the image
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)[1]
     gray = cv2.bitwise_not(gray, gray)
 
     if display:
-        cv2.imshow("aa", gray)
+        cv2.imshow("image", gray)
         cv2.waitKey(0)
         # closing all open windows
         cv2.destroyAllWindows()
