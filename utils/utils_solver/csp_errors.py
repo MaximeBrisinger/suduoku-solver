@@ -24,3 +24,9 @@ class UnknownVariable(CspError):
 
     def __repr__(self):
         return f"The given variable {self.variable} is not in the variables list of the CSP."
+
+
+class ResolutionError(CspError):
+    """The exception class error to tell that the input CSP has no solution."""
+    def __repr__(self):
+        return f"The given Sudoku is not solvable."

@@ -1,18 +1,17 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from utils.extract_cells import preprocess, get_outline_puzzle, splitcells, cropcell
 from utils.post_process import threshold_digit, detect_empty, center_digit
 from utils.predict import predict
 from utils.modify_digits import run_corrections
 from utils.display_sudoku import display
 from utils.utils_solver.sudoku import Sudoku
+from utils.utils_solver.csp_errors import ResolutionError
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import argparse
-import os
 import time
-
-
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 def main(file, dataset, model_folder="data/models/"):
@@ -53,24 +52,17 @@ def main(file, dataset, model_folder="data/models/"):
                 model = model_folder + "model2.pth"
                 pred = predict(image, model=model, img_size=28)
                 pred_value = pred[0].argmax() + 1
-                # print(pred_value)
             elif dataset == "MNIST":
                 model = model_folder + "model.pth"
                 pred = predict(image, model=model, img_size=28)
                 pred_value = pred[0, 1:].argmax() + 1
-                # print(pred_value)
             else:
                 image = 255 - image
                 model = model_folder + "model3.pth"
                 pred = predict(image, model=model, img_size=34)
                 pred_value = pred[0].argmax()
-                # print(pred_value)
 
             predicted.append(pred_value)
-
-    # print(predicted)
-    # print(f"Nb of 8 : {sum(np.array(predicted) == 8)} / {len(predicted)}")
-    # print(np.reshape(predicted, (9, 9)))
 
     predicted = run_corrections(predicted)
     predicted = np.reshape(predicted, (9, 9))
@@ -86,15 +78,19 @@ def main(file, dataset, model_folder="data/models/"):
                                                                             arc_consistence=True,
                                                                             forward_check=True,
                                                                             time_limit=180)
-    final_grid = sudoku.build_solution()
-    final_values = np.reshape(final_grid, (1, 81))[0]
-    to_display = display(final_values)
+    try:
+        final_grid = sudoku.build_solution()
+        final_values = np.reshape(final_grid, (1, 81))[0]
+        to_display = display(final_values)
 
-    # Show solved Sudoku
-    plt.figure("Sudoku")
-    plt.axis('off')
-    plt.imshow(to_display, cmap='Greys')
-    plt.show()
+        # Show solved Sudoku
+        plt.figure("Sudoku")
+        plt.axis('off')
+        plt.imshow(to_display, cmap='Greys')
+        plt.show()
+
+    except ResolutionError as error:
+        print(error.__repr__())
 
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@ def cropcell(cells, display=False):
     c = 0
     for image in cells:
         img = np.array(image)
-        #img = img[4:46, 6:46]
+        # img = img[4:46, 6:46]
         img = img[8:42, 8:42]
         img = Image.fromarray(img)
         cells_croped.append(img)
@@ -49,12 +49,6 @@ if __name__ == '__main__':
     FILE = "example.jpg"
 
     SUDOKU_A = read_image(FOLDER, FILE)
-    # THRESHOLD = preprocess(SUDOKU_A)
-    #
-    # contour, contour_1, contour_2 = get_outline(SUDOKU_A, THRESHOLD)
-    # biggest, max_area = main_outline(contour)
-
-    # imagewrap = get_sudoku_grid(SUDOKU_A, contour, contour_2)
 
     # Importing puzzle to be solved
     puzzle = cv2.imread("../data/test1.jpg")
@@ -63,7 +57,7 @@ if __name__ == '__main__':
     su_imagewrap = get_outline_puzzle(puzzle, su_puzzle, SUDOKU_A)
 
     sudoku_cell = splitcells(su_imagewrap)
-    sudoku_cells_croped = CropCell(sudoku_cell, display=True)
+    sudoku_cells_croped = cropcell(sudoku_cell, display=True)
     print(np.asarray(sudoku_cells_croped[-1]))
 
     plt.show()

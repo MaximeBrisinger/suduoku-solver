@@ -2,7 +2,10 @@ from utils.post_process import center_digit, threshold_digit
 from keras.models import load_model
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+import os
+
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 def predict(img, model, img_size):

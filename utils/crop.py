@@ -1,12 +1,9 @@
-import os
-import random
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
 
 def read_image(folder, file_name, display=False):
-    print(file_name)
     sudoku_a = cv2.imread(folder + '/' + file_name)
 
     if display:
@@ -97,7 +94,6 @@ def get_sudoku_grid(sudoku_a, contour, contour_2, display=False):
     imagewrap = cv2.warpPerspective(sudoku_a, matrix, (450, 450))
     imagewrap = cv2.cvtColor(imagewrap, cv2.COLOR_BGR2GRAY)
 
-    # cv2.imwrite("data/test2.jpg", imagewrap)
     if display:
         plt.figure()
         plt.imshow(imagewrap)
