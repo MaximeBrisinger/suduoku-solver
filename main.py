@@ -8,6 +8,7 @@ from utils.modify_digits import run_corrections
 from utils.display_sudoku import display
 from utils.utils_solver.sudoku import Sudoku
 from utils.utils_solver.csp_errors import ResolutionError
+from utils.errors import InvalidValue
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
@@ -87,19 +88,16 @@ def main(file, dataset, model_folder="data/models/"):
                                                                             arc_consistence=True,
                                                                             forward_check=True,
                                                                             time_limit=180)
-    try:
-        final_grid = sudoku.build_solution()
-        final_values = np.reshape(final_grid, (1, 81))[0]
-        to_display = display(final_values)
 
-        # Show solved Sudoku
-        plt.figure("Sudoku")
-        plt.axis('off')
-        plt.imshow(to_display, cmap='Greys')
-        plt.show()
+    final_grid = sudoku.build_solution()
+    final_values = np.reshape(final_grid, (1, 81))[0]
+    to_display = display(final_values)
 
-    except ResolutionError as error:
-        print(error.__repr__())
+    # Show solved Sudoku
+    plt.figure("Sudoku")
+    plt.axis('off')
+    plt.imshow(to_display, cmap='Greys')
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -116,5 +114,11 @@ if __name__ == '__main__':
 
     FOLDER = "data/"
 
-    main(FOLDER + FILE, DATASET)
+    try:
+        main(FOLDER + FILE, DATASET)
 
+    except ResolutionError as res_error:
+        print(res_error.__repr__())
+
+    except InvalidValue as value_error:
+        print(value_error.__repr__())
