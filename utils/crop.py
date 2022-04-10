@@ -16,31 +16,17 @@ def read_image(folder, file_name, display=False):
     return sudoku_a
 
 
-# function to greyscale, blur and change the receptive threshold of image
-
 def preprocess(image, display=False):
+    """
+        Blurs and thresholds the image to get a binary one
+    """
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (3, 3), 6)
-    # blur = cv2.bilateralFilter(gray,9,75,75)
     threshold_img = cv2.adaptiveThreshold(blur, 255, 1, 1, 11, 2)
     if display:
         plt.figure()
         plt.imshow(threshold_img)
     return threshold_img
-
-
-def get_outline(sudoku_a, threshold, display=False):
-    # Finding the outline of the sudoku puzzle in the image
-    contour_1 = sudoku_a.copy()
-    contour_2 = sudoku_a.copy()
-    contour, hierarchy = cv2.findContours(threshold, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    cv2.drawContours(contour_1, contour, -1, (0, 255, 0), 3)
-
-    if display:
-        plt.figure()
-        plt.imshow(contour_1)
-
-    return contour, contour_1, contour_2
 
 
 def main_outline(contour):
@@ -81,35 +67,3 @@ def splitcells(img, display=False):
         plt.imshow(boxes[80])
     return boxes
 
-
-def get_sudoku_grid(sudoku_a, contour, contour_2, display=False):
-    black_img = np.zeros((450, 450, 3), np.uint8)
-    biggest, maxArea = main_outline(contour)
-    if biggest.size != 0:
-        biggest = reframe(biggest)
-    cv2.drawContours(contour_2, biggest, -1, (0, 255, 0), 10)
-    pts1 = np.float32(biggest)
-    pts2 = np.float32([[0, 0], [450, 0], [0, 450], [450, 450]])
-    matrix = cv2.getPerspectiveTransform(pts1, pts2)
-    imagewrap = cv2.warpPerspective(sudoku_a, matrix, (450, 450))
-    imagewrap = cv2.cvtColor(imagewrap, cv2.COLOR_BGR2GRAY)
-
-    if display:
-        plt.figure()
-        plt.imshow(imagewrap)
-
-    return imagewrap
-
-
-if __name__ == '__main__':
-    FOLDER = "data"
-    # a = random.choice(os.listdir(folder))
-    FILE = "example.jpg"
-
-    SUDOKU_A = read_image(FOLDER, FILE)
-    THRESHOLD = preprocess(SUDOKU_A)
-
-    contour, contour_1, contour_2 = get_outline(SUDOKU_A, THRESHOLD)
-    biggest, max_area = main_outline(contour)
-
-    imagewrap = get_sudoku_grid(SUDOKU_A, contour, contour_2)

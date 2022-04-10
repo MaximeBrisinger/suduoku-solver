@@ -41,11 +41,10 @@ def main(file, dataset, model_folder="data/models/"):
     predicted = []
     c = 0
     for cell in sudoku_cells_croped:
-
         c += 1
+
         cell = cv2.cvtColor(np.array(cell), cv2.COLOR_RGB2BGR)
         img = threshold_digit(cell)
-
         # Check if empty
         has_digit = detect_empty(img)
 

@@ -39,7 +39,6 @@ def train(X_train, y_train, X_test, y_test, nb_labels=10, output="model3.pth"):
     model.add(Dense(nb_labels, activation='softmax'))
 
     # Compile model
-    # opt = Adam(learning_rate=0.0001)
     model.compile(loss='categorical_crossentropy', optimizer="Adam", metrics=['accuracy'])
 
     model.fit(

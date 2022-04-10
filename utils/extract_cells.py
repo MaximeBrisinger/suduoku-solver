@@ -36,7 +36,7 @@ def cropcell(cells, display=False):
         img = Image.fromarray(img)
         cells_croped.append(img)
         c += 1
-        if display and c < 15:
+        if display and c < 10:
             plt.figure()
             plt.imshow(img)
     plt.show()
