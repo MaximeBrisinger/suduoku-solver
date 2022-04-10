@@ -32,7 +32,7 @@ def main(file, dataset, model_folder="data/models/"):
     # cv2.waitKey(0)
 
     su_imagewrap = get_outline_puzzle(puzzle, su_puzzle)
-    cv2.imshow('image', su_imagewrap)
+    cv2.imshow('Grid', su_imagewrap)
     cv2.waitKey(0)
 
     sudoku_cell = splitcells(su_imagewrap)
@@ -45,6 +45,7 @@ def main(file, dataset, model_folder="data/models/"):
 
         cell = cv2.cvtColor(np.array(cell), cv2.COLOR_RGB2BGR)
         img = threshold_digit(cell)
+
         # Check if empty
         has_digit = detect_empty(img)
 
@@ -52,10 +53,6 @@ def main(file, dataset, model_folder="data/models/"):
             predicted.append(-1)
         else:
             image = center_digit(img)
-
-            # To save extracted cells as jpg (to analyze performances)
-            # img = Image.fromarray(image).convert('RGB')
-            # img.save(f"data/test/digits_test2/{c}.jpg")
 
             if dataset == "OWN":
                 model = model_folder + "model2.pth"
@@ -85,9 +82,10 @@ def main(file, dataset, model_folder="data/models/"):
                                                                             mode_var_heuristic=1,
                                                                             mode_val_heuristic=1,
                                                                             arc_consistence=True,
-                                                                            forward_check=True,
+                                                                            forward_check=False,
                                                                             time_limit=180)
-
+    print(round(execution_time, 3))
+    print(n_branching)
     final_grid = sudoku.build_solution()
     final_values = np.reshape(final_grid, (1, 81))[0]
     to_display = display(final_values)

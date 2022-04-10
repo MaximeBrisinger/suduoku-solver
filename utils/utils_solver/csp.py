@@ -70,7 +70,7 @@ class CSP:
         var_name = self.heuristic_variable_selector(mode_var_heuristic, instantiation, domains, args=args_var_selection)
  
         # We extract its possible values
-        if not domains[var_name]: # liste vide
+        if not domains[var_name]:  # liste vide
             return False, True, time.time() - starting_time, n_branching
 
         # values = self.heuristic_values_choice_1(var_name, domains)
@@ -84,8 +84,7 @@ class CSP:
             n_branching += 1
             local_instantiation = instantiation.copy()
             local_instantiation[var_name] = v
-            #Forward checking
-            sons_result = []
+            # Forward checking
             if forward_check:
                 local_domains = self.forward_checking(instantiation, domains, var_name, v)
 
@@ -117,7 +116,6 @@ class CSP:
     # Heuristic for variable choice (most constrainted)
     def heuristic_variable_choice_3(self, instantiation, domains, list_var_sorted_by_nconstraints):
         """ Third approach : take the variable involved in the highest number of constraints"""
-        #TODO: coder tri en amont 
         for i in range(len(self.variables)):
             if list_var_sorted_by_nconstraints[i] not in instantiation:
                 return list_var_sorted_by_nconstraints[i]
@@ -161,11 +159,11 @@ class CSP:
 
     def heuristic_values_choice_2(self, instantiation, domains, variable_name):
         """most suppported value"""
-        dict_supporting_tuples = {u : 0 for u in domains[variable_name]}
+        dict_supporting_tuples = {u: 0 for u in domains[variable_name]}
         for constraint in self.constraints[variable_name]:
             if constraint.variables[0].name == variable_name:
                 idx_var = 0
-            else :
+            else:
                 idx_var = 1
             if constraint.variables[~idx_var].name not in instantiation:
                 for tuples in constraint.tuples:
