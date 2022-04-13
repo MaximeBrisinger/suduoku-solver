@@ -1,5 +1,5 @@
 from utils.utils_solver.csp_errors import DomainError, UnknownVariable
-from copy import copy, deepcopy
+from copy import deepcopy
 import numpy as np
 import time
 
@@ -52,7 +52,6 @@ class CSP:
             execution_time : execution_time
             n_visited_nodes : number_of_nodes visted during the research
         """
-        #print("A", instantiation)
         if time.time() - starting_time > time_limit:
             return False, False, time.time() - starting_time, n_branching
             
@@ -241,13 +240,6 @@ class CSP:
         args_var_selection = ()
         if mode_var_heuristic == 3:
             list_var_sorted_by_nconstraints = self.compute_list_heuristic_var_3()
-            # print("A", list_var_sorted_by_nconstraints)
             args_var_selection = (list_var_sorted_by_nconstraints,)
 
         return self.backtracking(instantiation, self.domains, mode_var_heuristic=mode_var_heuristic, args_var_selection=args_var_selection, mode_val_heuristic=mode_val_heuristic, starting_time=starting_time, time_limit=time_limit, forward_check=forward_check)
-
-
-# IDEES :
-
-# Comment choisir les heuristiques de selection en fonction du pb ??
-# Idee d'aprofondissement : faire un truc intelligent qui choisit une en fonction du pb ou qqch comme ca
