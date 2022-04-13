@@ -10,6 +10,7 @@ class CSP:
         Args:
             variables (list[Variable])
             domains (Domain)
+            constraints (list[Constraint])
         """
         self.final_solution = None
         self.time_ac3 = 0
@@ -24,7 +25,7 @@ class CSP:
 
         for constraint in constraints:
             for variable in constraint.variables:
-                if variable not in self.variables:  # changer pour des var.name ?
+                if variable not in self.variables:
                     raise UnknownVariable(variable)
                 else:
                     self.constraints[variable.name].append(constraint)
@@ -50,7 +51,7 @@ class CSP:
             solution_found : Bool
             termination_status : indicates whether the research terminated in the given time
             execution_time : execution_time
-            n_visited_nodes : number_of_nodes visted during the research
+            n_visited_nodes : number of nodes visited during the research
         """
         if time.time() - starting_time > time_limit:
             return False, False, time.time() - starting_time, n_branching
@@ -69,7 +70,7 @@ class CSP:
         var_name = self.heuristic_variable_selector(mode_var_heuristic, instantiation, domains, args=args_var_selection)
  
         # We extract its possible values
-        if not domains[var_name]:  # liste vide
+        if not domains[var_name]:  # empty list
             return False, True, time.time() - starting_time, n_branching
 
         # values = self.heuristic_values_choice_1(var_name, domains)
@@ -190,7 +191,7 @@ class CSP:
             instantiation = {x.name: None,
                              y.name: None}
             for x_value in self.domains[x.name]:
-                # until line 100 : check if x_value has a support
+                # next 8 lines : check if x_value has a support
                 instantiation[x.name] = x_value
                 is_supported = False
                 for y_value in self.domains[y.name]:

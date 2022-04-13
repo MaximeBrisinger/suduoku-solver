@@ -3,9 +3,6 @@ class Constraint:
         self.variables = [variable1, variable2]  # we only consider binary CSP
         self.tuples = tuples
 
-    # def wrapper(self, intensive_constraint):
-    # TODO
-
     def is_satisfied(self, instantiation):
         """
         Check if the constraint is satisfied. If 1 of the 2 variable is not instantiated, return True
