@@ -16,7 +16,7 @@ import argparse
 import time
 
 
-def main(file, dataset, model_folder="data/models/"):
+def main(file, dataset, model_folder="data/models/", verbose=False):
     """
     Main function. Pre-processes the image, then extracts the digits, recognizes them, and finally solve the sudoku.
     Args:
@@ -82,10 +82,12 @@ def main(file, dataset, model_folder="data/models/"):
                                                                             mode_var_heuristic=1,
                                                                             mode_val_heuristic=1,
                                                                             arc_consistence=True,
-                                                                            forward_check=False,
+                                                                            forward_check=True,
                                                                             time_limit=180)
-    print(round(execution_time, 3))
-    print(n_branching)
+
+    if verbose:
+        print(f"Time to solve the sudoku {round(execution_time, 3)} seconds.")
+        print(f"Number of branching in the backtracking : {n_branching}")
     final_grid = sudoku.build_solution()
     final_values = np.reshape(final_grid, (1, 81))[0]
     to_display = display(final_values)
@@ -104,11 +106,15 @@ if __name__ == '__main__':
     parser.add_argument('--input_file', default="test4.jpg", type=str)
     parser.add_argument('--dataset', default='KAGGLE', type=str, choices=["KAGGLE", "MNIST", "OWN"],
                         help='Name of the dataset to use for the training.')
+    parser.add_argument('--verbose', default=False, help='To print solver indicators at the end.',
+                        action="store_true")
 
     args = parser.parse_args()
     FILE = args.input_file
     DATASET = args.dataset
+    VERBOSE = args.verbose
 
+    # Path to data folder
     FOLDER = "data/"
 
     try:
