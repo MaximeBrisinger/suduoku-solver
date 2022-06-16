@@ -1,6 +1,8 @@
 # Sudoku solver
 This project aims at solving a Sudoku from a picture, which might have a poor quality (blurred, not upright, small...).
 
+[link](README2.md#ref)
+
 **Here is an example of a Sudoku solved with our algorithm.**
 
 <div align="center"> Input Sudoku picture.
