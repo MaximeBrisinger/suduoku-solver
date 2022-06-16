@@ -38,7 +38,7 @@ This project aims at solving a Sudoku from a picture, which might have a poor qu
 
 
 
-## <a name="ref" How to run the project />
+## <a name="ref" /> How to run the project 
 Run the main file. The input `.jpg` file has to be in `data/` folder.
 ```bash
 python main.py --input_file example1.jpg
